@@ -25,7 +25,12 @@ steps:
   displayName: 'Run pylint'
 
 - script: |
-    python3 -m pytest --cov=calculator --cov-report=xml:coverage.xml --cov-fail-under=80
+    python3 -m pytest \
+      --cov=calculator \
+      --cov-report=xml:coverage.xml \
+      --cov-report=html:htmlcov \
+      --cov-fail-under=80
+  workingDirectory: '$(System.DefaultWorkingDirectory)'
   displayName: 'Run tests with coverage (>= 80%)'
 
 - task: PublishCodeCoverageResults@2
@@ -34,5 +39,5 @@ steps:
   inputs:
     codeCoverageTool: 'Cobertura'
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage.xml'
-    reportDirectory: '$(System.DefaultWorkingDirectory)'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/htmlcov'
     failIfCoverageEmpty: true
