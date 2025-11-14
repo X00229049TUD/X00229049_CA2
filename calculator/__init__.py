@@ -2,6 +2,6 @@
 init module
 """
 
-from .core import add, subtract
+from .core import add, subtract, multiply, divide
 
-__all__ = ["add", "subtract"]
+__all__ = ["add", "subtract", "multiply", "divide"]
