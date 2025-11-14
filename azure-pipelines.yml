@@ -9,7 +9,7 @@ pr:
       - main
 
 pool:
-  vmImage: 'self-hosted'
+  name: 'self-hosted'
 
 variables:
   pythonVersion: '3.11'
