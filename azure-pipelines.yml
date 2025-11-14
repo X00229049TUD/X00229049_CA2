@@ -28,10 +28,17 @@ steps:
     python3 -m pytest \
       --cov=calculator \
       --cov-report=xml:coverage.xml \
-      --cov-report=html:htmlcov \
-      --cov-fail-under=80
-  workingDirectory: '$(System.DefaultWorkingDirectory)'
+      --cov-fail-under=80 \
+      --junitxml=test-results.xml
   displayName: 'Run tests with coverage (>= 80%)'
+
+- task: PublishTestResults@2
+  displayName: 'Publish test results'
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'test-results.xml'
+    failTaskOnFailedTests: true
+
 
 - task: PublishCodeCoverageResults@2
   displayName: 'Publish code coverage'
