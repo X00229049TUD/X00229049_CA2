@@ -67,7 +67,7 @@ DevOps YAML pipelines. It performs:
 
 ### Pipeline Stages
 
-1. **Set up Python environment** using `UsePythonVersion@0` on `ubuntu-latest`.
+1. **Set up Python environment** using local python on `self-hosted` agent.
 
 1. **Install dependencies** -
 Installs packages from `requirements.txt`.
@@ -80,14 +80,11 @@ Runs `pylint` on:
 1. **Automated Unit Tests + Coverage** - 
 uses:
 ```
-pytest --cov=calculator --cov-report=xml:coverage.xml --cov-fail-under=80
+python3 -m pytest --cov=calculator --cov-report=xml:coverage.xml --cov-fail-under=80
 ```
 
 This enforces a minimum coverage of 80%.
 
-1. **Publish coverage results** -
-Publishes the XML report using `PublishCodeCoverageResults@2`.
-Coverage is visible directly in the Azure Pipeline summary.
 ## Branch Policies and Protection
 Branch protection is configured on GitHub (not Azure Repos), following CA
 requirements.
