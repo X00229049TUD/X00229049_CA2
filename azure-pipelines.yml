@@ -15,11 +15,10 @@ variables:
   pythonVersion: '3.11'
 
 steps:
-- task: UsePythonVersion@0
-  displayName: 'Set up Python'
-  inputs:
-    versionSpec: '$(pythonVersion)'
-    addToPath: true
+- script: |
+    python3 -m pip install --upgrade pip
+    python3 -m pip install -r requirements.txt
+  displayName: 'Install dependencies'
 
 - script: |
     python -m pip install --upgrade pip
