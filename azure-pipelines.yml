@@ -27,3 +27,11 @@ steps:
 - script: |
     python3 -m pytest --cov=calculator --cov-report=xml:coverage.xml --cov-fail-under=80
   displayName: 'Run tests with coverage (>= 80%)'
+
+- task: PublishCodeCoverageResults@2
+  displayName: 'Publish code coverage'
+  condition: succeededOrFailed()
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: 'coverage.xml'
+    failIfCoverageEmpty: true
