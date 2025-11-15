@@ -42,3 +42,16 @@ def power(base, exponent):
     Raise base to exponent.
     """
     return base ** exponent
+
+def maximum(a: float, b: float) -> float:
+    """
+    Return the larger of two values.
+    """
+    return max(a, b)
+
+
+def minimum(a: float, b: float) -> float:
+    """
+    Return the smaller of two values.
+    """
+    return min(a, b)
