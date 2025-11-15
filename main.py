@@ -7,7 +7,7 @@ from __future__ import annotations
 import argparse
 from typing import Callable, Dict
 
-from calculator import add, subtract, multiply, divide
+from calculator import add, subtract, multiply, divide, power
 
 
 OperationFunc = Callable[[float, float], float]
@@ -42,6 +42,7 @@ def main() -> None:
         "sub": subtract,
         "mul": multiply,
         "div": divide,
+        "pow": power
     }
 
     func = operations[args.operation]
