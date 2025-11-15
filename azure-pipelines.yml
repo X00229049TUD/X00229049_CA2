@@ -9,8 +9,8 @@ pr:
       - main
 
 pool:
-  # name: 'self-hosted'
-  vmImage: 'ubuntu-latest'
+  name: 'self-hosted'
+  # vmImage: 'ubuntu-latest'
 
 variables:
   pythonVersion: '3.11'
