@@ -42,6 +42,7 @@ The calculator currently supports two core operations:
 - subtract(a, b) – returns the result of a - b
 - multiply(a, b) - returns the result of a * b
 - divide(a, b) - returns the result of a / b
+- power(a, b) - returns the result of a ** b
 
 Division by zero raises a ValueError.
 
@@ -53,6 +54,7 @@ calculator/
 tests/
     test_core.py
     test_multiply_divide.py
+    test_power.py
 main.py
 azure-pipelines.yml
 README.md
@@ -122,8 +124,8 @@ Occurs when Azure DevOps organization does not yet have free hosted parallelism.
 
 Add more tests to improve code coverage.
 ## Running the App
-
+For example:
 ```bash
-python main.py add 2 3
-python main.py sub 5 2
+python3 -m main.py add 2 3
+python3 -m main.py sub 5 2
 ```

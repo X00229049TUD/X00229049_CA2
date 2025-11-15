@@ -7,7 +7,7 @@ from __future__ import annotations
 import argparse
 from typing import Callable, Dict
 
-from calculator import add, subtract, multiply, divide
+from calculator import add, subtract, multiply, divide, power
 
 
 OperationFunc = Callable[[float, float], float]
@@ -22,8 +22,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "operation",
-        choices=["add", "sub", "mul", "div"],
-        help="Operation to perform.",
+        choices=["add", "sub", "mul", "div", "pow"],
+        help=(
+            "Operation to perform. "
+            "Use: add (a+b), sub (a-b), mul (a*b), div (a/b), pow (a**b)."
+        ),
     )
     parser.add_argument("a", type=float, help="First operand.")
     parser.add_argument("b", type=float, help="Second operand.")
@@ -42,6 +45,7 @@ def main() -> None:
         "sub": subtract,
         "mul": multiply,
         "div": divide,
+        "pow": power,
     }
 
     func = operations[args.operation]
