@@ -43,6 +43,8 @@ The calculator currently supports two core operations:
 - multiply(a, b) - returns the result of a * b
 - divide(a, b) - returns the result of a / b
 - power(a, b) - returns the result of a ** b
+- maximum(a, b) - returns the max number of a or b
+- minumum(a, b) - returns the min number of a or b
 
 Division by zero raises a ValueError.
 
@@ -55,6 +57,7 @@ tests/
     test_core.py
     test_multiply_divide.py
     test_power.py
+    test_min_max.py
 main.py
 azure-pipelines.yml
 README.md
