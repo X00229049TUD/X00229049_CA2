@@ -9,44 +9,57 @@ pr:
       - main
 
 pool:
-  name: 'self-hosted'
-  # vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-latest'
 
 variables:
   pythonVersion: '3.11'
 
-steps:
-- script: |
-    python3 -m pip install --upgrade pip
-    python3 -m pip install -r requirements.txt
-  displayName: 'Install dependencies'
+stages:
+- stage: BuildAndTest
+  displayName: 'Build, lint, test'
+  jobs:
+  - job: Build
+    displayName: 'Run lint and tests'
+    steps:
+    - task: UsePythonVersion@0
+      displayName: 'Use Python $(pythonVersion)'
+      inputs:
+        versionSpec: '$(pythonVersion)'
+        addToPath: true
 
-- script: |
-    python3 -m pylint calculator main.py
-  displayName: 'Run pylint'
+    - script: |
+        python -m pip install --upgrade pip
+        python -m pip install -r requirements.txt
+      displayName: 'Install dependencies'
 
-- script: |
-    python3 -m pytest \
-      --cov=calculator \
-      --cov-report=xml:coverage.xml \
-      --cov-report=html:htmlcov \
-      --cov-fail-under=80 \
-      --junitxml=test-results.xml
-  displayName: 'Run tests with coverage (>= 80%)'
+    - script: |
+        python -m pylint calculator main.py app.py
+      displayName: 'Run pylint'
 
-- task: PublishTestResults@2
-  displayName: 'Publish test results'
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: 'test-results.xml'
-    failTaskOnFailedTests: true
+    - script: |
+        echo "Running tests with pytest and coverage"
+        python -m pytest -q \
+          --junitxml=junit.xml \
+          --cov=calculator \
+          --cov-branch \
+          --cov-report=xml:coverage.xml \
+          --cov-report=html:htmlcov \
+          --cov-fail-under=80
+      displayName: 'Test + coverage (fails if <80%)'
 
+    - task: PublishTestResults@2
+      displayName: 'Publish test results (JUnit)'
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'junit.xml'
+        failTaskOnFailedTests: true
 
-- task: PublishCodeCoverageResults@2
-  displayName: 'Publish code coverage'
-  condition: succeededOrFailed()
-  inputs:
-    codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage.xml'
-    reportDirectory: '$(System.DefaultWorkingDirectory)/htmlcov'
-    failIfCoverageEmpty: true
+    - task: PublishCodeCoverageResults@2
+      displayName: 'Publish code coverage (Cobertura XML)'
+      condition: succeededOrFailed()
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage.xml'
+        reportDirectory: '$(System.DefaultWorkingDirectory)/htmlcov'
+        failIfCoverageEmpty: true
