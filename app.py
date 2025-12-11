@@ -1,3 +1,5 @@
+"""Web UI for the calculator."""
+
 from __future__ import annotations
 from typing import Callable, Dict
 from flask import Flask, render_template, request, jsonify
